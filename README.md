@@ -28,9 +28,13 @@ https://developer.nuance.com/mix/
 * Code only works with Python 2
 
 ## Resources
-* http://research.nii.ac.jp/src/en/JNAS.html
+* Japanese Speech Corpus of Saruwatari-lab., University of Tokyo (JSUT). https://sites.google.com/site/shinnosuketakamichi/publication/jsut
+* Voice Statistics. http://voice-statistics.github.io/
+	* nico-opendata. https://nico-opendata.jp/ja/casestudy/2stack_voice_conversion/report.html
+* ASJ Japanese Newspaper Article Sentences Read Speech Corpus (JNAS). http://research.nii.ac.jp/src/en/JNAS.html
 	* BM001A05.wav "救急車が　十分に　動けず　救助作業が　遅れている"
 	* NM001001.wav "まだ 正式 に 決まっ た わけ で は ない ので"
+* Kota Takahashi Laboratory. http://www.it.ice.uec.ac.jp/SRV-DB/
 
 
 ## TODO
