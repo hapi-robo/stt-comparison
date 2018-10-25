@@ -11,7 +11,20 @@ import time
 import argparse
 import io
 
+
 def transcribe(filename):
+    """ Convert speech to text 
+        
+    Args:
+        filename (str): Path to audio file.
+
+    Returns:
+        Transcribed text and process time.
+
+    References:
+        https://cloud.google.com/speech-to-text/docs/recognition-metadata
+
+    """
     from google.cloud import speech
     from google.cloud.speech import enums
     from google.cloud.speech import types
@@ -21,11 +34,10 @@ def transcribe(filename):
         content = audio_file.read()
 
     audio = types.RecognitionAudio(content=content)
-
-    # https://cloud.google.com/speech-to-text/docs/recognition-metadata
     config = types.RecognitionConfig(
         encoding=enums.RecognitionConfig.AudioEncoding.LINEAR16,
-        sample_rate_hertz=16000,
+        # sample_rate_hertz=16000,
+        sample_rate_hertz=48000,
         language_code='ja')
 
     start = time.time();

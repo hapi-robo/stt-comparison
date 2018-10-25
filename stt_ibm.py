@@ -19,6 +19,7 @@ import time
 import argparse
 from watson_developer_cloud import SpeechToTextV1
 
+
 def transcribe(filename):
     # Location: Sydney
     service = SpeechToTextV1(

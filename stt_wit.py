@@ -19,6 +19,7 @@ import time
 import argparse
 from wit import Wit
 
+
 def transcribe(filename):
 	client = Wit(os.environ['SERVER_ACCESS_TOKEN']); # server access token
 
