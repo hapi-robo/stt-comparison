@@ -1,2 +1,4 @@
 credentials/
 resources/jsut*
+*.csv
+__pycache__/
