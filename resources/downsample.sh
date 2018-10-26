@@ -1,5 +1,8 @@
 #!/bin/bash
 #
+# Requires SOX
+#	sudo apt install sox
+#
 # Usage: 
 #	./downsample {file} {(optional) sample_rate: 8000, 16000}
 
