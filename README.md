@@ -3,6 +3,14 @@ The scripts in this repository are used for testing speech recognition services 
 
 Note that there exists a Python package to do some of this https://pypi.org/project/SpeechRecognition/, but I've decided to go through the process of figuring it out myself to better understand the inner-workings of each service.
 
+
+## Usage
+$ git clone https://github.com/ray-hrst/stt.git
+$ cd stt/
+$ git submodule init
+$ git submodule update
+
+
 ## Online Services
 Each script uses it's own [Python virtual environment](https://virtualenv.pypa.io/en/stable/). Python package requirements for each enviroment can be found in the `requirements_*.txt` files.
 

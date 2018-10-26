@@ -25,6 +25,7 @@ import regex as re
 import Levenshtein
 import datetime
 
+from itertools import islice
 from stt_google import transcribe as google_transcribe
 
 
@@ -93,11 +94,14 @@ if __name__ == '__main__':
         with open(args.path + 'transcript_utf8.txt', 'r') as transcript_file:
             csv_reader = csv.reader(transcript_file, delimiter=':')
             for row in csv_reader:
+            # for row in islice(csv_reader, 1, 100):
                 audio_file = args.path + 'wav/' + row[0] + '.wav'
                 print(audio_file)
 
                 # transcribe audio
                 tru_transcript = strip_punctuation(row[1])
+                # stt_transcript = ""
+                # proc_time = 0
                 stt_transcript, proc_time = google_transcribe(audio_file, 
                     sample_rate=48000)
                 l_distance, l_ratio = compare_string(stt_transcript, tru_transcript)
@@ -115,6 +119,6 @@ if __name__ == '__main__':
                 # print to console
                 print("STT:", stt_transcript)
                 print("TRU:", tru_transcript)
-                print("Processing Time: {0:.3f}".format(proc_time))
+                print("Processing Time: {:.3f}".format(proc_time))
                 print("Levenshtein Distance: {}, Ratio: {:.3f}".format(l_distance, l_ratio))
                 print("\n")
