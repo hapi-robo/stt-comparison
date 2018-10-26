@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# coding: utf8
+# -*- coding: utf-8 -*-
 
 """Japanese speech corpus of Saruwatari-lab., University of Tokyo (JSUT)
 
@@ -12,6 +12,7 @@ Reference:
 Ryosuke Sonobe, Shinnosuke Takamichi and Hiroshi Saruwatari,  "JSUT corpus: 
 free large-scale Japanese speech corpus for end-to-end speech synthesis," 
 arXiv preprint, 1711.00354, 2017. (https://arxiv.org/pdf/1711.00354.pdf)
+https://sites.google.com/site/shinnosuketakamichi/publication/jsut
 
 Example usage:
     python test_jsut jsut_ver1.1/basic5000/
@@ -22,6 +23,9 @@ import argparse
 import csv
 import regex as re
 import Levenshtein
+import datetime
+
+from stt_google import transcribe as google_transcribe
 
 
 def compare_string(s1, s2):
@@ -44,8 +48,8 @@ def compare_string(s1, s2):
         https://rawgit.com/ztane/python-Levenshtein/master/docs/Levenshtein.html
 
     """
-    distance = Levenshtein.distance(string1, string2)
-    ratio = Levenshtein.ratio(string1, string2)
+    distance = Levenshtein.distance(s1, s2)
+    ratio = Levenshtein.ratio(s1, s2)
     print("Distance:", distance)
     print("Ratio:", ratio)
     return distance, ratio
@@ -73,13 +77,44 @@ if __name__ == '__main__':
         formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument(
         'path', help='JSUT file path for data to be tested')
+    parser.add_argument(
+        'csv_filename', help='Filename of CSV to store data')
     args = parser.parse_args()
 
-    # args.path = 'resources/jsut_ver1.1/basic5000/'
-    with open(args.path + 'transcript_utf8.txt', 'r') as f:
-        csv_reader = csv.reader(f, delimiter=':')
-        for row in csv_reader:
-            # print(row[1]) # print original transcript
-            print(strip_punctuation(row[1])) # print processed transcript
-            print(args.path + 'wav/' + row[0] + '.wav') # print file path
-            print('\n')
+    # open CSV file for writing
+    with open(args.csv_filename, mode='w') as csv_file:
+        fieldnames = ['File Name', 'True Transcript', 'STT Transcript', 
+            'Processing Time', 'Levenshtein Distance', 'Levenshtein Ratio']
+        writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+        writer.writeheader()
+
+        # step through all audio samples
+        # note that transcript file contains all of the audio sample file names 
+        with open(args.path + 'transcript_utf8.txt', 'r') as transcript_file:
+            csv_reader = csv.reader(transcript_file, delimiter=':')
+            for row in csv_reader:
+                audio_file = args.path + 'wav/' + row[0] + '.wav'
+                print(audio_file)
+
+                # transcribe audio
+                tru_transcript = strip_punctuation(row[1])
+                stt_transcript, proc_time = google_transcribe(audio_file, 
+                    sample_rate=48000)
+                l_distance, l_ratio = compare_string(stt_transcript, tru_transcript)
+
+                # save transcription data to CSV file
+                print(os.path.basename(audio_file))
+                writer.writerow({
+                    'File Name': os.path.basename(audio_file), 
+                    'True Transcript': tru_transcript,
+                    'STT Transcript': stt_transcript,
+                    'Processing Time': proc_time, 
+                    'Levenshtein Distance': l_distance,
+                    'Levenshtein Ratio': l_ratio})
+
+                # print to console
+                print("STT:", stt_transcript)
+                print("TRU:", tru_transcript)
+                print("Processing Time: {0:.3f}".format(proc_time))
+                print("Levenshtein Distance: {}, Ratio: {:.3f}".format(l_distance, l_ratio))
+                print("\n")
