@@ -1,37 +1,58 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
-"""Test wit.ai Speech-to-Text API (https://wit.ai/).
+"""Speech to text using wit.ai Speech-to-Text API.
 
 Example usage:
     python transcribe.py audio.wav
 
-Notes:
-- https://wit.ai/docs
-- https://github.com/wit-ai/pywit
-- https://www.liip.ch/en/blog/speech-recognition-with-wit-ai
-- There isn't much detail provided on the desired audio format: 
-- https://github.com/wit-ai/wit/issues/217
+References:
+	https://wit.ai/
+	https://github.com/wit-ai/pywit
+	https://www.liip.ch/en/blog/speech-recognition-with-wit-ai
+
+	There isn't a lot of detail regarding the desired audio format: 
+	- https://github.com/wit-ai/wit/issues/217
+
+	Language must be set in the user-interface
 
 """
 
 import os
 import time
 import argparse
+
 from wit import Wit
 
 
-def transcribe(filename):
+def transcribe(
+	filename,
+	verbose=True):
+	"""Convert speech to text
+
+	Args:
+		filename (str): Path to audio file.
+
+	Returns:
+		transcript (str): Transcription of audio file.
+		proc_time (float): STT processing time.
+
+	"""
 	client = Wit(os.environ['SERVER_ACCESS_TOKEN']); # server access token
 
 	response = None
 	with open(filename, 'rb') as f:
-		start = time.time();
+		start_time = time.time();
 		response = client.speech(f, None, {'Content-Type': 'audio/wav'})
-		end = time.time();
+		proc_time = time.time() - start_time
 
-	# print(response); # raw response
-	print((response['_text']))
-	print("Elapsed Time:", end - start)
+	transcript = response['_text']
+
+	if verbose:
+		print(transcript)
+		print("Elapsed Time: {:.3f} seconds".format(proc_time))
+
+	return transcript, proc_time
 
 
 if __name__ == '__main__':
@@ -42,4 +63,4 @@ if __name__ == '__main__':
         'path', help='File path for audio file to be transcribed')
     args = parser.parse_args()
     
-    transcribe(args.path)
+    transcribe(args.path, verbose=True)

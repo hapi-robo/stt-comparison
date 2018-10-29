@@ -26,7 +26,8 @@ import Levenshtein
 import datetime
 
 from stt_google import transcribe as google_transcribe
-
+from stt_wit import transcribe as wit_transcribe
+from stt_ibm import transcribe as ibm_transcribe
 
 def compare_string(s1, s2):
     """ Compute Levenshtein distance and ratio 
@@ -88,7 +89,7 @@ if __name__ == '__main__':
         writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
         writer.writeheader()
 
-        # step through all audio samples
+        # step through all audio samples;
         # note that transcript file contains all of the audio sample file names 
         with open(args.path + 'transcript_utf8.txt', 'r') as transcript_file:
             csv_reader = csv.reader(transcript_file, delimiter=':')
@@ -98,11 +99,14 @@ if __name__ == '__main__':
 
                 # transcribe audio
                 tru_transcript = strip_punctuation(row[1])
-                stt_transcript, proc_time = google_transcribe(audio_file, 
-                    sample_rate=48000)
+                stt_transcript, proc_time = google_transcribe(audio_file, sample_rate=48000)
+                # stt_transcript, proc_time = ibm_transcribe(audio_file, sample_rate=48000)
+                # stt_transcript, proc_time = wit_transcribe(audio_file)
+                
+                # evaluate performance
                 l_distance, l_ratio = compare_string(stt_transcript, tru_transcript)
 
-                # save transcription data to CSV file
+                # save transcript and performance data to CSV file
                 print(os.path.basename(audio_file))
                 writer.writerow({
                     'File Name': os.path.basename(audio_file), 
