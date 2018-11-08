@@ -37,7 +37,7 @@ def transcribe(
         https://cloud.google.com/speech-to-text/docs/recognition-metadata
 
     """
-    client = speech.SpeechClient()
+    service = speech.SpeechClient()
 
     with io.open(filename, 'rb') as audio_file: # <------------- why is io.open used here??
         content = audio_file.read()
@@ -49,7 +49,7 @@ def transcribe(
         language_code='ja')
 
     start_time = time.time();
-    response = client.recognize(config, audio)
+    response = service.recognize(config, audio)
     proc_time = time.time() - start_time
 
     # iterate through consecutive portions of the audio to get 

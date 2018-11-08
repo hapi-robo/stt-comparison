@@ -38,12 +38,12 @@ def transcribe(
 		proc_time (float): STT processing time.
 
 	"""
-	client = Wit(os.environ['SERVER_ACCESS_TOKEN']); # server access token
+	service = Wit(os.environ['SERVER_ACCESS_TOKEN']); # server access token
 
 	response = None
 	with open(filename, 'rb') as f:
 		start_time = time.time();
-		response = client.speech(f, None, {'Content-Type': 'audio/wav'})
+		response = service.speech(f, None, {'Content-Type': 'audio/wav'})
 		proc_time = time.time() - start_time
 
 	transcript = response['_text']

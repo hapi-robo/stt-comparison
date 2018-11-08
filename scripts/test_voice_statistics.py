@@ -16,6 +16,10 @@ howpublished = {\url{http://voice-statistics.github.io/}
 
 Example usage:
     python test_voice_statistics voice-statistics.github.com/
+
+Todo:
+    Combine this with test_jsut.py
+
 """
 
 import os
@@ -35,15 +39,23 @@ if __name__ == '__main__':
     with open(args.path + 'assets/doc/balance_sentences.txt', 'r') as f:
         csv_reader = csv.reader(f, delimiter='\t')
         for row in csv_reader:
-            print(row[1]) # print transcription
-            print(args.path + 'assets/data/fujitou_angry/fujitou_angry_' + row[0] + '.wav') # print file path
-            print(args.path + 'assets/data/fujitou_happy/fujitou_happy_' + row[0] + '.wav') # print file path
-            print(args.path + 'assets/data/fujitou_normal/fujitou_normal_' + row[0] + '.wav') # print file path
-            print(args.path + 'assets/data/tsuchiya_angry/tsuchiya_angry_' + row[0] + '.wav') # print file path
-            print(args.path + 'assets/data/tsuchiya_happy/tsuchiya_happy_' + row[0] + '.wav') # print file path
-            print(args.path + 'assets/data/tsuchiya_happy/tsuchiya_happy_' + row[0] + '.wav') # print file path
-            print(args.path + 'assets/data/uemura_angry_angry/uemura_angry_angry_' + row[0] + '.wav') # print file path
-            print(args.path + 'assets/data/uemura_angry_happy/uemura_angry_happy_' + row[0] + '.wav') # print file path
-            print(args.path + 'assets/data/uemura_angry_happy/uemura_angry_happy_' + row[0] + '.wav') # print file path
-            print(args.path + 'assets/data/hiroshiba_normal/hiroshiba_normal_' + row[0] + '.wav') # print file path
+            audio_file = args.path + 'assets/data/fujitou_angry/fujitou_angry_' + row[0] + '.wav'
+            audio_file = args.path + 'assets/data/fujitou_happy/fujitou_happy_' + row[0] + '.wav'
+            audio_file = args.path + 'assets/data/fujitou_normal/fujitou_normal_' + row[0] + '.wav'
+            audio_file = args.path + 'assets/data/tsuchiya_angry/tsuchiya_angry_' + row[0] + '.wav'
+            audio_file = args.path + 'assets/data/tsuchiya_happy/tsuchiya_happy_' + row[0] + '.wav'
+            audio_file = args.path + 'assets/data/tsuchiya_happy/tsuchiya_happy_' + row[0] + '.wav'
+            audio_file = args.path + 'assets/data/uemura_angry_angry/uemura_angry_angry_' + row[0] + '.wav'
+            audio_file = args.path + 'assets/data/uemura_angry_happy/uemura_angry_happy_' + row[0] + '.wav'
+            audio_file = args.path + 'assets/data/uemura_angry_happy/uemura_angry_happy_' + row[0] + '.wav'
+            audio_file = args.path + 'assets/data/hiroshiba_normal/hiroshiba_normal_' + row[0] + '.wav'
+            
+            # transcribe audio
+            tru_transcript = row[1]
+            # stt_transcript, proc_time = ...
+
+            # print to console
+            print(audio_file)
+            print("STT:", stt_transcript)
+            print("TRUE:", tru_transcript)
             print('\n')

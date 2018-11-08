@@ -16,6 +16,7 @@ https://sites.google.com/site/shinnosuketakamichi/publication/jsut
 
 Example usage:
     python test_jsut jsut_ver1.1/basic5000/
+
 """
 
 import os
@@ -95,8 +96,7 @@ if __name__ == '__main__':
             csv_reader = csv.reader(transcript_file, delimiter=':')
             for row in csv_reader:
                 audio_file = args.path + 'wav/' + row[0] + '.wav'
-                print(audio_file)
-
+                
                 # transcribe audio
                 tru_transcript = strip_punctuation(row[1])
                 stt_transcript, proc_time = google_transcribe(audio_file, sample_rate=48000)
@@ -117,8 +117,9 @@ if __name__ == '__main__':
                     'Levenshtein Ratio': l_ratio})
 
                 # print to console
+                print(audio_file)
                 print("STT:", stt_transcript)
                 print("TRU:", tru_transcript)
-                print("Processing Time: {0:.3f}".format(proc_time))
+                print("Processing Time: {:.3f}".format(proc_time))
                 print("Levenshtein Distance: {}, Ratio: {:.3f}".format(l_distance, l_ratio))
                 print("\n")
