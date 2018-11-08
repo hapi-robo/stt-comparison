@@ -26,6 +26,7 @@ import regex as re
 import Levenshtein
 import datetime
 
+from itertools import islice
 from stt_google import transcribe as google_transcribe
 from stt_wit import transcribe as wit_transcribe
 from stt_ibm import transcribe as ibm_transcribe
@@ -95,10 +96,12 @@ if __name__ == '__main__':
         with open(args.path + 'transcript_utf8.txt', 'r') as transcript_file:
             csv_reader = csv.reader(transcript_file, delimiter=':')
             for row in csv_reader:
+            # for row in islice(csv_reader, 1, 100):
                 audio_file = args.path + 'wav/' + row[0] + '.wav'
                 
                 # transcribe audio
                 tru_transcript = strip_punctuation(row[1])
+
                 stt_transcript, proc_time = google_transcribe(audio_file, sample_rate=48000)
                 # stt_transcript, proc_time = ibm_transcribe(audio_file, sample_rate=48000)
                 # stt_transcript, proc_time = wit_transcribe(audio_file)
