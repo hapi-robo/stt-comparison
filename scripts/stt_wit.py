@@ -4,18 +4,17 @@
 """Speech to text using wit.ai Speech-to-Text API.
 
 Example usage:
-    python transcribe.py audio.wav
+    python stt_wit.py /path/to/audio/sample.wav
+
+Notes:
+	- Default sampling rate is 16 kHz
+	- Language must be predefined in the user-interface
+	- There isn't a lot of detail regarding the desired audio format, see: https://github.com/wit-ai/wit/issues/217
 
 References:
-	https://wit.ai/
-	https://github.com/wit-ai/pywit
-	https://www.liip.ch/en/blog/speech-recognition-with-wit-ai
-
-	There isn't a lot of detail regarding the desired audio format: 
-	- https://github.com/wit-ai/wit/issues/217
-
-	Language must be set in the user-interface
-
+	- https://wit.ai/
+	- https://github.com/wit-ai/pywit
+	- https://www.liip.ch/en/blog/speech-recognition-with-wit-ai
 """
 
 import os
@@ -56,7 +55,6 @@ def transcribe(
 
 
 if __name__ == '__main__':
-    # handle arguments
     parser = argparse.ArgumentParser(description=__doc__,
         formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument(

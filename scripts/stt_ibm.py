@@ -4,19 +4,17 @@
 """Speech to text using IBM Watson Speech to Text API.
 
 Example usage:
-    python transcribe.py audio.wav
+    python stt_ibm.py /path/to/audio/sample.wav
+
+Notes:
+    - Default sampling rate is 16 kHz
+    - A localized version of this Watson service is available in Japan, see: http://www.softbank.jp/biz/watson
 
 References:
-    https://www.ibm.com/watson/services/speech-to-text/
-    https://github.com/watson-developer-cloud/python-sdk
-    https://console.bluemix.net/docs/services/speech-to-text/audio-formats.html#audio-formats
-    
-    A localized version of this Watson service is available in Japan. 
-    Visit the following link for details: http://www.softbank.jp/biz/watson
-
+    - https://www.ibm.com/watson/services/speech-to-text/
+    - https://github.com/watson-developer-cloud/python-sdk
+    - https://console.bluemix.net/docs/services/speech-to-text/audio-formats.html#audio-formats
 """
-
-# from __future__ import print_function
 
 import os
 import time
@@ -54,7 +52,7 @@ def transcribe(
         start_time = time.time()
         response = service.recognize(
             audio=audio_file,
-            content_type='audio/l16; rate=' + int2str(sample_rate),
+            content_type='audio/l16; rate=16000',
             model='ja-JP_BroadbandModel').get_result()
         proc_time = time.time() - start_time
 
@@ -62,14 +60,13 @@ def transcribe(
 
     if verbose:
         print(transcript)
-        print("Sampling Rate:", sample_rate)
-        print("Elapsed Time:{:.3f}".format(proc_time))
+        print("Sampling Rate: {} Hz".format(sample_rate))
+        print("Elapsed Time: {:.3f} seconds".format(proc_time))
 
     return transcript, proc_time
 
 
 if __name__ == '__main__':
-    # handle arguments
     parser = argparse.ArgumentParser(description=__doc__,
         formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument(
@@ -78,4 +75,7 @@ if __name__ == '__main__':
         '--rate', help='Sampling rate [Hz]', type=int)
     args = parser.parse_args()
     
-    transcribe(args.path, sample_rate=args.rate, verbose=True)
+    if len(vars(args)) > 2:
+        transcribe(args.path, sample_rate=args.rate, verbose=True)
+    else:
+        transcribe(args.path, verbose=True)
