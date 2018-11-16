@@ -7,11 +7,12 @@ Note that there exists a Python package to do some of this https://pypi.org/proj
 
 
 ## Install
+```
 $ git clone https://github.com/ray-hrst/stt.git
 $ cd stt/
 $ git submodule init
 $ git submodule update
-
+```
 
 ## Setup
 Each script uses it's own [Python virtual environment](https://virtualenv.pypa.io/en/stable/). Python package requirements for each enviroment can be found in the `requirements` folder. Auto-generate the virtual environment with:
