@@ -1,29 +1,22 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""Speech to text using wit.ai Speech-to-Text API.
+"""Speech to text using Fuetrek's Speech-to-Text API.
 
 Example usage:
-    python stt_wit.py /path/to/audio/sample.wav
+    python stt_fuetrek.py /path/to/audio/sample.wav
 
 Notes:
-	- Default sampling rate is 16 kHz
-	- Language must be predefined in the user-interface
-	- There isn't a lot of detail regarding the desired audio format, see: https://github.com/wit-ai/wit/issues/217
-	- No confidence level provided
-	
-References:
-	- https://wit.ai/
-	- https://github.com/wit-ai/pywit
-	- https://www.liip.ch/en/blog/speech-recognition-with-wit-ai
+	- Audio sampling rate must be 16 kHz
 """
 
 import os
 import time
 import argparse
+import requests
+import json
 
-from wit import Wit
-
+SERVICE_ADDRESS = "172.16.0.41:3000"
 
 def transcribe(
 	filename,
@@ -38,22 +31,25 @@ def transcribe(
 		proc_time (float): STT processing time.
 
 	"""
-	service = Wit(os.environ['SERVER_ACCESS_TOKEN']); # server access token
-
 	response = None
+
 	with open(filename, 'rb') as audio_file:
 		start_time = time.time();
-		response = service.speech(audio_file, None, {'Content-Type': 'audio/wav'})
+		response = requests.post(url="http://" + SERVICE_ADDRESS + "/fuetrek_stt_api/", 
+								data=audio_file, 
+								headers={'Content-Type': 'application/json'})
 		proc_time = time.time() - start_time
 
-	transcript = response['_text']
+	response.encoding = 'utf-8'
+	transcript = response.json()['transcript']
+	confidence = response.json()['confidence'] / 100.0
 
 	if verbose:
 		print(transcript)
 		print("Elapsed Time: {:.3f} seconds".format(proc_time))
-		print("Confidence: None Provided")
+		print("Confidence Level: {:.3f}".format(confidence))
 
-	return transcript, proc_time
+	return transcript, proc_time, confidence
 
 
 if __name__ == '__main__':

@@ -57,13 +57,15 @@ def transcribe(
         proc_time = time.time() - start_time
 
     transcript = response['results'][0]['alternatives'][0]['transcript']; 
+    confidence = response['results'][0]['alternatives'][0]['confidence']; 
 
     if verbose:
         print(transcript)
         print("Sampling Rate: {} Hz".format(sample_rate))
         print("Elapsed Time: {:.3f} seconds".format(proc_time))
+        print("Confidence Level: {}".format(confidence))
 
-    return transcript, proc_time
+    return transcript, proc_time, confidence
 
 
 if __name__ == '__main__':

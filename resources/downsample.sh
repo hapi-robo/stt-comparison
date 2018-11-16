@@ -1,10 +1,12 @@
 #!/bin/bash
 #
+# This script will downsample an audio file.
+#
 # Requires SOX
 #	sudo apt install sox
 #
 # Usage: 
-#	./downsample {file} {(optional) sample_rate: 8000, 16000}
+#	./downsample.sh {file} {(optional) desired sample_rate: 8000, 16000}
 
 file=$1
 extension="${file##*.}"

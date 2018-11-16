@@ -15,7 +15,6 @@ References:
 
 import time
 import argparse
-import io
 
 from google.cloud import speech
 from google.cloud.speech import enums
@@ -41,7 +40,7 @@ def transcribe(
     """
     service = speech.SpeechClient()
 
-    with io.open(filename, 'rb') as audio_file: # <------------- @TODO: why is io.open used here??
+    with open(filename, 'rb') as audio_file:
         content = audio_file.read()
 
     audio = types.RecognitionAudio(content=content)
@@ -56,16 +55,17 @@ def transcribe(
 
     # iterate through consecutive portions of the audio to get 
     # the complete audio transcript.
-    transcript = ""
     for result in response.results:
-        transcript += result.alternatives[0].transcript 
-    
+        transcript = result.alternatives[0].transcript 
+        confidence = result.alternatives[0].confidence
+
     if verbose:
         print(transcript)
         print("Sampling Rate: {} Hz".format(sample_rate))
         print("Elapsed Time: {:.3f} seconds".format(proc_time))
+        print("Confidence Level: {}".format(confidence))
 
-    return transcript, proc_time
+    return transcript, proc_time, confidence
 
 
 if __name__ == '__main__':

@@ -1,4 +1,10 @@
 #!/bin/bash
+#
+# This script will download and extract nico-opendata dataset
+# into the voice-statistics folder.
+#
+# Usage: 
+#	./voice-statistics.sh
 
 cd voice-statistics.github.com/assets/data/
 

@@ -1,9 +1,10 @@
 # Speech-to-Text Service Comparison
 The scripts in this repository are used for testing online speech recognition services for the Japanese language.
 
-Each service comes with API credentials and some services require installation of SDK or library. Refer to the services documentation for this.
+Each service comes with API credentials and some services require installation of SDK or library. Refer to the individual services documentation for this.
 
 Note that there exists a Python package to do some of this https://pypi.org/project/SpeechRecognition/, but I've decided to go through the process of figuring it out myself to better understand the inner-workings of each service.
+
 
 ## Install
 $ git clone https://github.com/ray-hrst/stt.git
@@ -11,15 +12,45 @@ $ cd stt/
 $ git submodule init
 $ git submodule update
 
-Note that each script uses it's own [Python virtual environment](https://virtualenv.pypa.io/en/stable/). Python package requirements for each enviroment can be found in the `requirements_*.txt` files.
+
+## Setup
+Each script uses it's own [Python virtual environment](https://virtualenv.pypa.io/en/stable/). Python package requirements for each enviroment can be found in the `requirements` folder. Auto-generate the virtual environment with:
+```
+$ ./setup.sh xxx
+```
+
+where `xxx` can be:
+* `google`
+* `ibm`
+* `wit`
+* `fuetrek`
+
+For example:
+```
+$ ./setup.sh google
+```
 
 
 ## Usage
-All scripts are located in the `scripts` directory. Start the appropriate Python virtual environment if you have one.
+First start the appropriate Python virtual environment:
+```
+$ . venv/xxx/bin/activate
+```
+
+Then run the script. Note that all scripts are located in the `scripts` directory.
 ```
 $ python stt_xxx.py /path/to/audio/sample.wav
 ```
-where `xxx` is `google`, `ibm`, or `wit`.
+
+where `xxx` can be:
+* `google`
+* `ibm`
+* `wit`
+* `fuetrek`
+
+
+## Resources
+The `resources` folder contains voice samples and transcripts from various online sources. They can be used as input for each of the scripts.
 
 
 ## Online Services
@@ -28,6 +59,7 @@ The following services were tested.
 ### [Google Cloud Speech-to-Text](https://cloud.google.com/speech-to-text/)
 **Notes**
 * Easy to setup only after you figure out how to turn on the service; Google's Cloud management system (which is complicated).
+* Provides the most fastest and reliable service
 
 ### [IBM Watson Speeth to Text](https://www.ibm.com/watson/services/speech-to-text/)
 **Notes**
@@ -37,6 +69,11 @@ The following services were tested.
 **Notes**
 * Free: https://wit.ai/faq
 * Straightforward to use with good documentation and out of the box working examples
+* Unreliable service
+
+### [Fuetrek](https://www.fuetrek.co.jp/)
+**Notes**
+* TBD
 
 ### [Nuance Mix](https://developer.nuance.com/mix/)
 **Notes**
