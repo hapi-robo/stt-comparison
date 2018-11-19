@@ -4,9 +4,11 @@
 """Speech to text using Fuetrek's Speech-to-Text API.
 
 Example usage:
-    python stt_fuetrek.py /path/to/audio/sample.wav
+    python stt_fuetrek.py /path/to/audio/sample.raw
 
 Notes:
+	- Fuetrek takes in .raw file as input; this is 
+	  essentially a .wav file without header information
 	- Audio sampling rate must be 16 kHz
 """
 
