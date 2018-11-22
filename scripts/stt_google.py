@@ -60,6 +60,7 @@ def transcribe(
         confidence = result.alternatives[0].confidence
 
     if verbose:
+        print("Filename: {}".format(filename))
         print(transcript)
         print("Sampling Rate: {} Hz".format(sample_rate))
         print("Elapsed Time: {:.3f} seconds".format(proc_time))

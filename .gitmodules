@@ -1,4 +1,4 @@
 [submodule "resources/voice-statistics.github.com"]
-	path = resources/voice-statistics.github.com
+	path = corpus/voice-statistics.github.com
 	url = https://github.com/voice-statistics/voice-statistics.github.com.git
 	ignore = dirty

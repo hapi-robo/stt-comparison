@@ -49,11 +49,12 @@ def transcribe(
 	transcript = response['_text']
 
 	if verbose:
+		print("Filename: {}".format(filename))
 		print(transcript)
 		print("Elapsed Time: {:.3f} seconds".format(proc_time))
 		print("Confidence: None Provided")
 
-	return transcript, proc_time
+	return transcript, proc_time, None
 
 
 if __name__ == '__main__':

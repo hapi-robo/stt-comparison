@@ -1,5 +1,6 @@
+*.pyc
+*.csv
 venv/
 credentials/
-resources/jsut*
-*.csv
+corpus/jsut*
 __pycache__/

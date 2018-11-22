@@ -1,4 +1,4 @@
-#!/bin/bash
+#/usr/bin/env bash -e
 #
 # This script will download and extract nico-opendata dataset
 # into the voice-statistics folder.

@@ -1,5 +1,15 @@
 #/usr/bin/env bash -e
-# Auto-generate python virtual environments and install requirements
+#
+# Auto-generate python virtual environments and install requirements.
+#
+# Usage
+#	./setup.sh XXX
+# 
+# where XXX can be:
+# - google
+# - ibm
+# - wit
+# - fuetrek
 
 NAME=$1
 VENV=venv

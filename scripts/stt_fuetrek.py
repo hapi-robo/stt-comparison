@@ -7,9 +7,13 @@ Example usage:
     python stt_fuetrek.py /path/to/audio/sample.raw
 
 Notes:
-	- Fuetrek takes in .raw file as input; this is 
-	  essentially a .wav file without header information
-	- Audio sampling rate must be 16 kHz
+	Fuetrek takes in an audio file with the following specifications:
+	- 16 kHz sampling rate
+	- 16-bit resolution
+	- Big-endian PCM file (WAV without header information)
+
+	Conversion can be accomplished as follows:
+	ffmpeg -i input.wav -f s16be -acodec pcm_s16be output.raw
 """
 
 import os
@@ -47,6 +51,7 @@ def transcribe(
 	confidence = response.json()['confidence'] / 100.0
 
 	if verbose:
+		print("Filename: {}".format(filename))
 		print(transcript)
 		print("Elapsed Time: {:.3f} seconds".format(proc_time))
 		print("Confidence Level: {:.3f}".format(confidence))

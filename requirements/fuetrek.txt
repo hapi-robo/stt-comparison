@@ -1,1 +1,4 @@
 requests
+
+regex
+python-Levenshtein

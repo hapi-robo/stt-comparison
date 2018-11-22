@@ -17,10 +17,10 @@ $ git submodule update
 ## Setup
 Each script uses it's own [Python virtual environment](https://virtualenv.pypa.io/en/stable/). Python package requirements for each enviroment can be found in the `requirements` folder. Auto-generate the virtual environment with:
 ```
-$ ./setup.sh xxx
+$ ./setup.sh XXX
 ```
 
-where `xxx` can be:
+where `XXX` can be:
 * `google`
 * `ibm`
 * `wit`
@@ -35,15 +35,15 @@ $ ./setup.sh google
 ## Usage
 First start the appropriate Python virtual environment:
 ```
-$ . venv/xxx/bin/activate
+$ . venv/XXX/bin/activate
 ```
 
 Then run the script. Note that all scripts are located in the `scripts` directory.
 ```
-$ python stt_xxx.py /path/to/audio/sample.wav
+$ python stt_XXX.py /path/to/audio/sample.wav
 ```
 
-where `xxx` can be:
+where `XXX` can be:
 * `google`
 * `ibm`
 * `wit`
