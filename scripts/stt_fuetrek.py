@@ -33,8 +33,9 @@ def transcribe(
 		filename (str): Path to audio file.
 
 	Returns:
-		transcript (str): Transcription of audio file.
+		transcript (unicode, utf-8): Transcription of audio file.
 		proc_time (float): STT processing time.
+		confidence (float): Normalized confidence level.
 
 	"""
 	response = None

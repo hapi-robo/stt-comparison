@@ -8,3 +8,6 @@ six==1.11.0
 urllib3==1.24
 watson-developer-cloud==2.2.6
 websocket-client==0.47.0
+
+regex
+python-Levenshtein

@@ -79,6 +79,12 @@ def compare_string(s1, s2):
         This may not be the best metric to use for comparing speech 
         transcription in Japanese.
 
+        Transcription Accuracy. http://www.cs.columbia.edu/~julia/courses/CS4706/asreval.pdf
+
+        Look into string similar metrics; there are many, e.g. hamming distance, 
+        jaccard, cosine, levenshtein, jaro-winkler, etc. 
+        https://en.wikipedia.org/wiki/String_metric
+
 
     References:
         https://en.wikipedia.org/wiki/Levenshtein_distance
@@ -89,23 +95,21 @@ def compare_string(s1, s2):
     ratio = Levenshtein.ratio(s1, s2)
     return distance, ratio
 
-def strip_punctuation(s):
-    """ Strip Japanese symbols and punctuation
+def strip_punctuation(u):
+    """ Strip Japanese symbols, punctuations, and spaces
 
     Args:
-        s (str): String that may contain Japanese symbols and/or 
-            punctuations.
+        u (unicode, utf-8): String that may contain Japanese symbols, punctuations, and/or spaces.
 
     Returns:
-        unicode (utf-8): String without Japanese symbols and/or punctuations.
+        unicode (utf-8): String without Japanese symbols, punctuations, and/or spaces.
 
     References:
         http://www.localizingjapan.com/blog/2012/01/20/regular-expressions-for-japanese-text/
         https://www.joelonsoftware.com/2003/10/08/the-absolute-minimum-every-software-developer-absolutely-positively-must-know-about-unicode-and-character-sets-no-excuses/
         https://regex101.com/r/cO8lqs/2
     """
-    u = unicode(s, "utf-8")
-    return re.sub(ur'[\u3000-\u303F]', "", u, flag=re.UNICODE)
+    return re.sub(ur"\s+|[\u3000-\u303F]", "", u, flag=re.UNICODE)
 
 if __name__ == '__main__':
     # handle arguments
@@ -134,22 +138,25 @@ if __name__ == '__main__':
             # for row in islice(csv_reader, 1, 100):
 
                 # copy true transcript to memory
-                tru_transcript = strip_punctuation(row[1])
+                tru_transcript = strip_punctuation(row[1].decode('utf-8'))
 
                 # transcribe audio
                 if args.stt == 'google':
-                    audio_file = args.path + 'wav/' + row[0] + '.wav'
-                    stt_transcript, proc_time, confidence = google_transcribe(audio_file, sample_rate=48000)
+                    audio_file = args.path + 'wav_16000/' + row[0] + '.wav'
+                    stt_transcript, proc_time, confidence = google_transcribe(audio_file)
                 elif args.stt == 'ibm':
-                    audio_file = args.path + 'wav/' + row[0] + '.wav'
-                    stt_transcript, proc_time, confidence = ibm_transcribe(audio_file, sample_rate=48000)
+                    audio_file = args.path + 'wav_16000/' + row[0] + '.wav'
+                    stt_transcript, proc_time, confidence = ibm_transcribe(audio_file)
                 elif args.stt == 'wit':
-                    audio_file = args.path + 'wav/' + row[0] + '.wav'
+                    audio_file = args.path + 'wav_16000/' + row[0] + '.wav'
                     stt_transcript, proc_time, confidence = wit_transcribe(audio_file)
                 elif args.stt == 'fuetrek':
-                    audio_file = args.path + 'wav/' + row[0] + '.raw'
+                    audio_file = args.path + 'raw/' + row[0] + '.raw'
                     stt_transcript, proc_time, confidence = fuetrek_transcribe(audio_file)
                 
+                # strip punctuation
+                stt_transcript = strip_punctuation(stt_transcript)
+
                 # evaluate performance
                 l_distance, l_ratio = compare_string(stt_transcript, tru_transcript)
 

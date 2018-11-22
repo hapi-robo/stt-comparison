@@ -1,26 +1,25 @@
 #/usr/bin/env bash -e
 #
-# This script will downsample an audio file.
+# This script will convert all audio files to 16-bit, 16 kHz sampling rate .wav files.
 #
 # Requires SOX
 #	sudo apt install sox
 #
 # Usage: 
-#	./downsample.sh [file] [(optional) desired sample_rate: 8000, 16000]
+#	./downsample2.sh [dir-in] [dir-out]
 
-file=$1
-filename="${file%.*}"
-bit_rate=16
-sample_rate=$2
-
-# provide a default sampling rate is none is defined
-if [ -z $sample_rate ]; then sample_rate="16000"; fi
-
-# generate output file name
-out_file="${filename}_${sample_rate}.wav"
+folder1=$1
+folder2=$2
 
 echo "Resampling..."
-sox ${file} --bits ${bit_rate} --rate ${sample_rate} --channels 1 ${out_file}
 
-echo "${file} -> ${out_file}"
+for filename in ${folder1}*.wav
+do
+	base=${filename##*/}
+	pref=${base%.*}
+
+	sox ${filename} --bits 16 --rate 16000 ${folder2}${pref}.wav
+	echo "${filename} -> ${folder2}${pref}.wav" 
+done
+
 echo "Done!"
