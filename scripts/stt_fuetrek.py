@@ -22,7 +22,7 @@ import argparse
 import requests
 import json
 
-SERVICE_ADDRESS = "172.16.0.41:3000"
+SERVICE_ENDPOINT = "172.16.0.41:3000"
 
 def transcribe(
 	filename,
@@ -41,7 +41,7 @@ def transcribe(
 
 	with open(filename, 'rb') as audio_file:
 		start_time = time.time();
-		response = requests.post(url="http://" + SERVICE_ADDRESS + "/fuetrek_stt_api/", 
+		response = requests.post(url="http://" + SERVICE_ENDPOINT + "/fuetrek_stt_api/", 
 								data=audio_file, 
 								headers={'Content-Type': 'application/json'})
 		proc_time = time.time() - start_time
